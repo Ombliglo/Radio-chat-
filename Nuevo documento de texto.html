@@ -1,0 +1,208 @@
+<audio id="audioStream" controls="" autoplay="">
+                  <source src="https://sp.sintonizapp.com:7003/stream" type="audio/mpeg">
+                  Tu navegador no soporta el elemento de audio.
+                  </audio>
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Público - Religión y Educación</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #7FDBFF, #001f3f);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #chat-container {
+            width: 90%;
+            max-width: 600px;
+            background-color: #ffffff;
+            color: #333;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 80vh;
+        }
+
+        #chat-header {
+            background-color: #0074D9;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 1.5em;
+            position: relative;
+        }
+
+        #user-list {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #001f3f;
+            color: white;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 0.9em;
+        }
+
+        #chat-messages {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            background-color: #f4f4f4;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .message.user {
+            background-color: #FFDC00;
+            align-self: flex-end;
+        }
+
+        .message.other {
+            background-color: #01FF70;
+            align-self: flex-start;
+        }
+
+        #chat-input {
+            display: flex;
+            padding: 10px;
+            background-color: #0074D9;
+        }
+
+        #chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        #chat-input button {
+            padding: 10px 20px;
+            background-color: #FF4136;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        #chat-input button:hover {
+            background-color: #FF851B;
+        }
+
+        #emoji-panel {
+            margin-top: 5px;
+            text-align: center;
+        }
+
+        #emoji-panel button {
+            font-size: 1.2em;
+            margin: 0 5px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <div id="chat-header">
+            Chat de Religión y Educación
+            <div id="user-list">Conectados: <span id="user-count">0</span></div>
+        </div>
+        <div id="chat-messages"></div>
+        <div id="emoji-panel">
+            <button onclick="addEmoji('😀')">😀</button>
+            <button onclick="addEmoji('🙏')">🙏</button>
+            <button onclick="addEmoji('🎵')">🎵</button>
+            <button onclick="addEmoji('📚')">📚</button>
+        </div>
+        <div id="chat-input">
+            <input type="text" id="message-input" placeholder="Escribe tu mensaje...">
+            <button onclick="sendMessage()">Enviar</button>
+        </div>
+    </div>
+
+    <script>
+        const messagesContainer = document.getElementById('chat-messages');
+        const userCountElement = document.getElementById('user-count');
+        let userCount = 0;
+
+        // Simulación de usuarios conectados (esto se reemplazará con lógica del servidor en producción)
+        function updateUserCount(change) {
+            userCount += change;
+            userCountElement.textContent = userCount;
+        }
+
+        // Simula la conexión de un nuevo usuario al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            updateUserCount(1); // Incrementar el conteo de usuarios al abrir la página
+
+            // Simula la desconexión al cerrar la pestaña
+            window.addEventListener('beforeunload', () => {
+                updateUserCount(-1);
+            });
+        });
+
+        function sendMessage() {
+            const input = document.getElementById('message-input');
+            const message = input.value.trim();
+
+            if (message) {
+                addMessage('user', message);
+                input.value = '';
+            }
+        }
+
+        function addMessage(sender, text) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', sender);
+            messageElement.textContent = text;
+
+            // Filtro básico de lenguaje inapropiado
+            const badWords = ['malo', 'inapropiado'];
+            badWords.forEach(word => {
+                const regex = new RegExp(word, 'gi');
+                text = text.replace(regex, '***');
+            });
+
+            messageElement.textContent = text;
+            messagesContainer.appendChild(messageElement);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function addEmoji(emoji) {
+            const input = document.getElementById('message-input');
+            input.value += emoji;
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
